@@ -1,11 +1,45 @@
-import { useLocalSearchParams } from "expo-router";
-import { View , Text} from "react-native";
+import { Button } from "@/components/button";
+import { LinkButton } from "@/components/link-button";
+import { PRODUCTS } from "@/utils/data/products";
+import { formatCurrency } from "@/utils/functions/format-currency"; // função está convertendo a moda para Real BR
+import { Feather, MaterialIcons } from "@expo/vector-icons";
+import { router, useLocalSearchParams } from "expo-router";
+import { View , Image, Text} from "react-native";
 
-export default function Product (){
+export default function Product (){ // Função responsavel por 
     const { id } = useLocalSearchParams()
+
+    const product = PRODUCTS.filter((item) => item.id === id)[0]
+
     return(
-        <View className="flex-1">
-            <Text className="text-yellow-300 font-heading text-5x1">{id}</Text>
+        <View className="flex-1 mt-5">
+            <MaterialIcons
+                size={32} name="arrow-back" onPress={()=> router.back()} color={"white"}
+            />
+            <Image source={product.cover} className="w-full h-52" resizeMode="cover" />
+            <View className="p-5 mt-8 flex-1">
+                <Text className="text-white text-xl font-heading">{product.title}</Text>
+                <Text className=" text-lime-400 text-2x1 font-heading my-2">{formatCurrency(product.price)}</Text>
+                <Text className="text-slate-400 font-body text-base leading-6 mb-6">{product.description}</Text>
+                {
+                    product.ingredients.map(ingredient => (
+                        <Text className="text-slate-400 font-body text-base leading-6" key={ingredient}>
+                            {'\u2022'} {ingredient}
+                        </Text>
+                    ))
+                }
+            </View>
+            <View className="p-5 pb-8 gap-5">
+                <Button>
+                    <Button.Icon>
+                        <Feather name="plus-circle" size={20}/>
+                    </Button.Icon>
+                    <Button.Text>
+                        Adicionar ao pedido
+                    </Button.Text>
+                </Button>
+                <LinkButton title="voltar ao cardapio" href="/"/>
+            </View>
         </View>
     )
 }

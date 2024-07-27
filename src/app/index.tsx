@@ -37,7 +37,7 @@ export default function Home(){
                 data={CATEGORIES} keyExtractor={(item) => item}
                 renderItem={({item}) => <CategoryButton title={item} isSelected={item === category} onPress={()=> handleCategorySelect(item)}/> } horizontal className="max-h-15 mt-1"
                 showsHorizontalScrollIndicator={false} contentContainerStyle={{gap: 12, paddingHorizontal:20} }
-    
+
             />
             <SectionList // Lista de dados categorizada, é o estilo do components basedo, no estilo de dado que possui
                 ref={sectionListRef}
